@@ -1,0 +1,131 @@
+# StableRef
+
+**English** | [Русский](README.ru.md)
+
+---
+
+Rename your classes freely — serialized references won't break.
+
+A serializable polymorphic reference wrapper for Unity that survives class renames. Built on top of `[SerializeReference]`, it stores a stable string type ID alongside the object so that renaming or moving a class does not break existing serialized data.
+
+## Installation
+
+**Via Package Manager (Git URL)**
+
+Open `Window → Package Manager`, click `+` → `Add package from git URL` and enter:
+
+```
+https://github.com/EgorShesterikov/Unity-StableRef.git
+```
+
+To pin a specific version append `#<tag>`, e.g. `...Unity-StableRef.git#1.0.0`.
+
+**Via `Packages/manifest.json`**
+
+Add the entry to the `dependencies` block:
+
+```json
+"com.egorshesterikov.stableref": "https://github.com/EgorShesterikov/Unity-StableRef.git"
+```
+
+**Via `.unitypackage`**
+
+Grab the latest release from the [Releases](https://github.com/EgorShesterikov/Unity-StableRef/releases) page and import it via `Assets → Import Package → Custom Package...`.
+
+**Manual copy**
+
+Clone or download the repository and copy the folder anywhere under your project's `Assets/`.
+
+**Requirements:** Unity 2021.3 or newer.
+
+## The problem it solves
+
+Unity's built-in `[SerializeReference]` stores the full assembly-qualified type name. If you rename or move a class, Unity loses the reference and the field becomes `null`. `StableRef` decouples the serialized identity from the class name by letting you assign a permanent ID via `[StableTypeId]`.
+
+## Classes and attributes
+
+| Type | Purpose |
+|---|---|
+| `StableRef<T>` | Serializable wrapper holding a single polymorphic reference of type `T`. |
+| `StableRefList<T>` | Serializable list of `StableRef<T>` items. |
+| `[StableTypeId("id")]` | Assigns a permanent ID to a class. Rename the class freely — Unity will still find it. |
+| `[StableRefCategory("Path")]` | Groups the type under a submenu in the inspector selector. |
+## Usage
+
+### Declaring a stable type
+
+```csharp
+[Serializable]
+[StableTypeId("my-package.damage-on-hit")]
+[StableRefCategory("Combat")]
+public class DamageOnHit : IEffect
+{
+    public int Amount;
+}
+```
+
+The `[StableTypeId]` value must be unique across the project. Use a namespaced string to avoid collisions.
+
+### Using StableRef\<T\> in a field
+
+```csharp
+[Serializable]
+public class ItemConfig : ScriptableObject
+{
+    public StableRef<IEffect> OnPickup;
+}
+```
+
+### Using StableRefList\<T\>
+
+```csharp
+[Serializable]
+public class AbilityConfig : ScriptableObject
+{
+    public StableRefList<IEffect> Effects;
+}
+
+// Iteration
+foreach (var stableRef in config.Effects)
+{
+    var effect = stableRef?.Value;
+    if (effect != null)
+        effect.Apply();
+}
+```
+
+<p align="center">
+  <img src="Documentation~/inspector.gif" alt="Adding a type via the typed dropdown" width="580">
+</p>
+
+## Auto-generated ID
+
+`[StableTypeId]` is optional. If omitted, StableRef automatically uses the **MonoScript GUID** (the `guid` value from the `.meta` file) as the stable identifier. This means:
+
+- **Class rename** — safe. The GUID is tied to the file, not the class name.
+- **Script file rename or move** — also safe. Unity's meta file travels with the asset and its GUID does not change.
+- **Deleting and recreating the file** — the reference is lost (resolves to `null`), but handled gracefully. The project continues to work; the missing type will appear in the Fix Missing Types report.
+
+For types you plan to refactor heavily, an explicit `[StableTypeId]` is more reliable since it survives even if the script file is deleted and re-created.
+
+## Editor tools
+
+All tools are available under **Tools → StableRef** in the Unity menu bar.
+
+**Find Usages** (`Tools/StableRef/Find Usages`) — scans prefabs, active scenes, and scriptable objects to show every place a selected type is used. Also accessible via right-click on a script asset: `Assets/Find StableRef Usages`.
+
+<p align="center">
+  <img src="Documentation~/find-usages.gif" alt="Find Usages window" width="640">
+</p>
+
+**Fix Missing Types** (`Tools/StableRef/Fix Missing Types`) — scans the project for StableRef fields that contain an ID that no longer maps to any known type. Useful after a refactor to find broken references before they become silent data loss.
+
+<p align="center">
+  <img src="Documentation~/fix-missing.gif" alt="Fix Missing Types window" width="560">
+</p>
+
+## License
+
+Released under the [MIT License](LICENSE.md).
+
+Authored by **Egor Shesterikov**.
