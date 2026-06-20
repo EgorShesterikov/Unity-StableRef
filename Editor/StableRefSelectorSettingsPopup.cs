@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Utility.StableRef
+namespace SST.StableRef
 {
     internal sealed class StableRefSelectorSettingsPopup : EditorWindow
     {

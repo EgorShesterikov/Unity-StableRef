@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Utility.StableRef
+namespace SST.StableRef
 {
     [Serializable]
     public abstract class StableRefBase

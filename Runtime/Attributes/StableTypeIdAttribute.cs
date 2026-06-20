@@ -1,6 +1,6 @@
 using System;
 
-namespace Utility.StableRef
+namespace SST.StableRef
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Interface)]
     public sealed class StableTypeIdAttribute : Attribute

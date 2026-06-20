@@ -7,7 +7,7 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Utility.StableRef
+namespace SST.StableRef
 {
     public sealed class StableRefUsagesWindow : EditorWindow
     {

@@ -5,7 +5,7 @@ using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
-namespace Utility.StableRef
+namespace SST.StableRef
 {
     public static class StableRefPropertyUtils
     {

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEditor;
 
-namespace Utility.StableRef
+namespace SST.StableRef
 {
     public static class StableRefTypeRegistry
     {

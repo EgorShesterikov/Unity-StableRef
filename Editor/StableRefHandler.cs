@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace Utility.StableRef
+namespace SST.StableRef
 {
     [CustomPropertyDrawer(typeof(StableRefBase), useForChildren: true)]
     public sealed class StableRefHandler : PropertyDrawer

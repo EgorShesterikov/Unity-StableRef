@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace Utility.StableRef
+namespace SST.StableRef
 {
     internal static class StableRefEditorUtility
     {

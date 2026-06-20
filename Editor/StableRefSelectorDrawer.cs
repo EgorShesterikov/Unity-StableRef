@@ -3,7 +3,7 @@ using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
-namespace Utility.StableRef
+namespace SST.StableRef
 {
     [CustomPropertyDrawer(typeof(StableRefSelectorAttribute))]
     public class StableRefSelectorDrawer : PropertyDrawer

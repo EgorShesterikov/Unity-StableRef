@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Utility.StableRef
+namespace SST.StableRef
 {
     [AttributeUsage(AttributeTargets.Class, Inherited = false)]
     public class StableRefCategoryAttribute : Attribute
