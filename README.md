@@ -10,33 +10,13 @@ A serializable polymorphic reference wrapper for Unity that survives class renam
 
 ## Installation
 
-**Via Package Manager (Git URL)**
+1. **.unitypackage** — [Releases](https://github.com/EgorShesterikov/Unity-StableRef/releases)
+2. **UPM** — `Window → Package Manager` → `+` → `Add package from git URL`:
+   `https://github.com/EgorShesterikov/Unity-StableRef.git`
+   Append `#tag` to pin a version.
+3. **Manual** — clone or download, copy to `Assets/`.
 
-Open `Window → Package Manager`, click `+` → `Add package from git URL` and enter:
-
-```
-https://github.com/EgorShesterikov/Unity-StableRef.git
-```
-
-To pin a specific version append `#<tag>`, e.g. `...Unity-StableRef.git#1.0.0`.
-
-**Via `Packages/manifest.json`**
-
-Add the entry to the `dependencies` block:
-
-```json
-"com.egorshesterikov.stableref": "https://github.com/EgorShesterikov/Unity-StableRef.git"
-```
-
-**Via `.unitypackage`**
-
-Grab the latest release from the [Releases](https://github.com/EgorShesterikov/Unity-StableRef/releases) page and import it via `Assets → Import Package → Custom Package...`.
-
-**Manual copy**
-
-Clone or download the repository and copy the folder anywhere under your project's `Assets/`.
-
-**Requirements:** Unity 2021.3 or newer.
+Unity 2021.3+
 
 ## The problem it solves
 
