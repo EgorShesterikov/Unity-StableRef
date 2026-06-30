@@ -1,4 +1,9 @@
-# StableRef
+<img src="Documentation~/banner.png" width="900" alt="StableRef">
+
+[![release](https://img.shields.io/github/v/release/EgorShesterikov/Unity-StableRef)](../../releases)
+[![release date](https://img.shields.io/github/release-date/EgorShesterikov/Unity-StableRef)](../../releases)
+[![last commit](https://img.shields.io/github/last-commit/EgorShesterikov/Unity-StableRef)](../../commits)
+[![license](https://img.shields.io/github/license/EgorShesterikov/Unity-StableRef)](LICENSE.md)
 
 **English** | [Русский](README.ru.md)
 
@@ -8,9 +13,29 @@ Rename your classes freely — serialized references won't break.
 
 A serializable polymorphic reference wrapper for Unity that survives class renames. Built on top of `[SerializeReference]`, it stores a stable string type ID alongside the object so that renaming or moving a class does not break existing serialized data.
 
+## Table Of Contents
+
+<details>
+<summary>Details</summary>
+
+- [Installation](#installation)
+- [The problem it solves](#the-problem-it-solves)
+- [Classes and attributes](#classes-and-attributes)
+- [Usage](#usage)
+  - [Declaring a stable type](#declaring-a-stable-type)
+  - [Using StableRef\<T\> in a field](#using-stablefrt-in-a-field)
+  - [Using StableRefList\<T\>](#using-stablereflistt)
+- [Auto-generated ID](#auto-generated-id)
+- [Editor tools](#editor-tools)
+- [License](#license)
+
+</details>
+
+---
+
 ## Installation
 
-1. **.unitypackage** — [Releases](https://github.com/EgorShesterikov/Unity-StableRef/releases)
+1. **.unitypackage** — [Releases](../../releases)
 2. **UPM** — `Window → Package Manager` → `+` → `Add package from git URL`:
    `https://github.com/EgorShesterikov/Unity-StableRef.git`
    Append `#tag` to pin a version.
@@ -18,9 +43,13 @@ A serializable polymorphic reference wrapper for Unity that survives class renam
 
 Unity 2021.3+
 
+---
+
 ## The problem it solves
 
 Unity's built-in `[SerializeReference]` stores the full assembly-qualified type name. If you rename or move a class, Unity loses the reference and the field becomes `null`. `StableRef` decouples the serialized identity from the class name by letting you assign a permanent ID via `[StableTypeId]`.
+
+---
 
 ## Classes and attributes
 
@@ -30,6 +59,9 @@ Unity's built-in `[SerializeReference]` stores the full assembly-qualified type 
 | `StableRefList<T>` | Serializable list of `StableRef<T>` items. |
 | `[StableTypeId("id")]` | Assigns a permanent ID to a class. Rename the class freely — Unity will still find it. |
 | `[StableRefCategory("Path")]` | Groups the type under a submenu in the inspector selector. |
+
+---
+
 ## Usage
 
 ### Declaring a stable type
@@ -78,6 +110,8 @@ foreach (var stableRef in config.Effects)
   <img src="Documentation~/inspector.gif" alt="Adding a type via the typed dropdown" width="580">
 </p>
 
+---
+
 ## Auto-generated ID
 
 `[StableTypeId]` is optional. If omitted, StableRef automatically uses the **MonoScript GUID** (the `guid` value from the `.meta` file) as the stable identifier. This means:
@@ -87,6 +121,8 @@ foreach (var stableRef in config.Effects)
 - **Deleting and recreating the file** — the reference is lost (resolves to `null`), but handled gracefully. The project continues to work; the missing type will appear in the Fix Missing Types report.
 
 For types you plan to refactor heavily, an explicit `[StableTypeId]` is more reliable since it survives even if the script file is deleted and re-created.
+
+---
 
 ## Editor tools
 
@@ -104,8 +140,10 @@ All tools are available under **Tools → StableRef** in the Unity menu bar.
   <img src="Documentation~/fix-missing.gif" alt="Fix Missing Types window" width="560">
 </p>
 
+---
+
 ## License
 
-Released under the [MIT License](LICENSE.md).
+Distributed under the [MIT License](LICENSE.md). Free for personal and commercial use.
 
-Authored by **Egor Shesterikov**.
+Author — **Egor Shesterikov**.

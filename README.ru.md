@@ -1,4 +1,9 @@
-# StableRef
+<img src="Documentation~/banner.png" width="900" alt="StableRef">
+
+[![release](https://img.shields.io/github/v/release/EgorShesterikov/Unity-StableRef)](../../releases)
+[![release date](https://img.shields.io/github/release-date/EgorShesterikov/Unity-StableRef)](../../releases)
+[![last commit](https://img.shields.io/github/last-commit/EgorShesterikov/Unity-StableRef)](../../commits)
+[![license](https://img.shields.io/github/license/EgorShesterikov/Unity-StableRef)](LICENSE.md)
 
 [English](README.md) | **Русский**
 
@@ -7,6 +12,26 @@
 Переименовывай классы свободно — сериализованные ссылки не сломаются.
 
 Сериализуемая обёртка для полиморфных ссылок в Unity, которая не ломается при переименовании классов. Построена поверх `[SerializeReference]`: рядом с объектом хранится стабильный строковый ID типа, поэтому переименование или перемещение класса не разрушает уже сохранённые данные.
+
+## Содержание
+
+<details>
+<summary>Подробнее</summary>
+
+- [Установка](#установка)
+- [Проблема, которую это решает](#проблема-которую-это-решает)
+- [Классы и атрибуты](#классы-и-атрибуты)
+- [Использование](#использование)
+  - [Объявление стабильного типа](#объявление-стабильного-типа)
+  - [StableRef\<T\> в поле](#stablerefт-в-поле)
+  - [StableRefList\<T\>](#stablereflistt)
+- [Автоматическая генерация ID](#автоматическая-генерация-id)
+- [Инструменты редактора](#инструменты-редактора)
+- [Лицензия](#лицензия)
+
+</details>
+
+---
 
 ## Установка
 
@@ -18,9 +43,13 @@
 
 Unity 2021.3+
 
+---
+
 ## Проблема, которую это решает
 
 Стандартный `[SerializeReference]` хранит полное assembly-qualified имя типа. Если переименовать или переместить класс, Unity теряет ссылку и поле становится `null`. `StableRef` разделяет сериализованную идентичность и имя класса — тип получает постоянный ID через `[StableTypeId]`, и можно переименовывать его свободно.
+
+---
 
 ## Классы и атрибуты
 
@@ -30,6 +59,9 @@ Unity 2021.3+
 | `StableRefList<T>` | Сериализуемый список элементов `StableRef<T>`. |
 | `[StableTypeId("id")]` | Присваивает классу постоянный ID. Переименовывай класс как угодно — Unity его найдёт. |
 | `[StableRefCategory("Path")]` | Группирует тип под подменю в инспекторном селекторе. |
+
+---
+
 ## Использование
 
 ### Объявление стабильного типа
@@ -78,6 +110,8 @@ foreach (var stableRef in config.Effects)
   <img src="Documentation~/inspector.gif" alt="Добавление типа через типизированный дропдаун" width="580">
 </p>
 
+---
+
 ## Автоматическая генерация ID
 
 `[StableTypeId]` — опционален. Если атрибут не указан, StableRef автоматически использует **MonoScript GUID** (значение поля `guid` из `.meta`-файла скрипта) в качестве стабильного идентификатора. Это значит:
@@ -87,6 +121,8 @@ foreach (var stableRef in config.Effects)
 - **Удаление и повторное создание файла** — ссылка теряется (резолвится в `null`), но ошибка обрабатывается контролируемо. Проект продолжит работать; потерянный тип отобразится в Fix Missing Types.
 
 Для типов, которые планируется активно рефакторить, явный `[StableTypeId]` надёжнее — он выживает даже при удалении и пересоздании файла скрипта.
+
+---
 
 ## Инструменты редактора
 
@@ -104,8 +140,10 @@ foreach (var stableRef in config.Effects)
   <img src="Documentation~/fix-missing.gif" alt="Окно Fix Missing Types" width="560">
 </p>
 
+---
+
 ## Лицензия
 
-Распространяется под [MIT License](LICENSE.md).
+Распространяется под [MIT License](LICENSE.md). Свободно для использования в личных и коммерческих проектах.
 
 Автор — **Egor Shesterikov**.
