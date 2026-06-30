@@ -259,8 +259,19 @@ namespace SST.StableRef
 
                 if (r.Contains(mp) && Event.current.type == EventType.MouseDown)
                 {
-                    if (collapsed) _collapsed.Remove(row.CategoryPath);
-                    else _collapsed.Add(row.CategoryPath);
+                    bool recursive = Event.current.alt;
+
+                    if (collapsed)
+                    {
+                        _collapsed.Remove(row.CategoryPath);
+                        if (recursive) ExpandRecursive(row.CategoryPath);
+                    }
+                    else
+                    {
+                        _collapsed.Add(row.CategoryPath);
+                        if (recursive) CollapseRecursive(row.CategoryPath);
+                    }
+
                     RebuildRows();
                     Event.current.Use();
                     Repaint();
@@ -488,6 +499,31 @@ namespace SST.StableRef
                 float w = textX + EditorStyles.label.CalcSize(_tempContent).x + 4f;
                 if (w > _contentW) _contentW = w;
             }
+        }
+
+        private void CollapseRecursive(string root)
+        {
+            if (_entries == null) return;
+            foreach (var e in _entries)
+            {
+                if (string.IsNullOrEmpty(e.Category)) continue;
+                string cat = e.Category;
+                if (cat != root && !cat.StartsWith(root + "/", StringComparison.Ordinal)) continue;
+
+                string[] segs = cat.Split('/');
+                for (int d = 0; d < segs.Length; d++)
+                {
+                    string segPath = d == 0 ? segs[0] : cat.Substring(0, IndexOfNthSlash(cat, d + 1));
+                    if (segPath == root || segPath.StartsWith(root + "/", StringComparison.Ordinal))
+                        _collapsed.Add(segPath);
+                }
+            }
+        }
+
+        private void ExpandRecursive(string root)
+        {
+            _collapsed.RemoveWhere(p =>
+                p == root || p.StartsWith(root + "/", StringComparison.Ordinal));
         }
 
         private static int IndexOfNthSlash(string s, int n)
